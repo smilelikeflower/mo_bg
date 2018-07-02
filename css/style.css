@@ -1,0 +1,6 @@
+/* .row-box{display: flex;display: -webkit-flex;flex-direction: row;width: 100%;height: auto;flex-wrap: wrap;margin: auto;
+    -webkit-box-orient: horizontal;} */
+.col-box{display: flex;display: -webkit-flex;display:-webkit-box;height: 100%;flex-direction: column;flex-wrap: wrap;
+    -webkit-box-orient: vertical;}
+.flex1{-webkit-flex-grow:1;flex-grow:1;-webkit-flex-shrink:1;flex-shrink:1;-webkit-flex-basis:0px;flex-basis:0px;}
+.col-box{height:100%;overflow: hidden; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column;}
