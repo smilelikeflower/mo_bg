@@ -1,0 +1,37 @@
+.details{position: relative;width: 820px;}
+.details>.head{position: relative;height: 25px;width: 100%;line-height: 25px;}
+.details>.head>i{width: 3px;height: 100%;display: inline-block;background: #009688;margin-left:5px;vertical-align: middle;}
+.details>.head>span{height: 100%;margin-left:15px;line-height: 100%;vertical-align: middle;}
+.details>.contents{padding:12px 0 12px 23px;width: 100%;}
+
+.contents>.user{position: relative;width: 100%;justify-content: space-between;}
+.contents>.user>div{display: inline-block;}
+.contents>.user>.user-info>p{line-height: 30px;margin-top: 10px;}
+.contents>.user>.user-info>p>span{width: 100px;display: inline-block;vertical-align: top;}
+.contents>.user>.user-info>p>span:first-child{width: 100px;}
+.contents>.user>.user-info>p>span:nth-child(2){width: 250px;}
+.contents>.user>.user-img>div{display: inline-block;text-align: center;vertical-align: top;}
+.contents>.user>.user-img>div>div{background-position: center;background-size: cover;background-repeat: no-repeat;}
+.contents>.user>.user-img>.user-head>.img{width: 80px;height: 80px;border-radius: 50%;}
+.contents>.user>.user-img>.user-bg{margin-left: 35px;}
+.contents>.user>.user-img>.user-bg>.img{width: 300px;height: 172px;}
+.contents>.user>.user-img>div>span{display: inline-block;padding-top: 10px;}
+
+.contents>p{height: 30px;line-height: 30px;}
+.contents>.line{height: 1px;width: 100%;background: #c2c2c2;margin: 15px 0px 10px;}
+.contents>.box>p{line-height: 30px;margin-top: 10px;}
+.contents>.comment-box{width: 100%;padding-top: 50px;}
+.contents>.comment-box>p>span:first-child{min-width:100px;display: inline-block; }
+.contents>.comment-box>.comment{background: #f2f2f2;padding: 5px 10px;margin-top: 5px;}
+.contents>.comment-box>.comment>li{border-bottom: 1px solid #c2c2c2;line-height: 30px;cursor: pointer;}
+.contents>.comment-box>.comment>li:last-child{border-bottom: none;}
+.contents>.comment-box>.pages-box{text-align: right;}
+.contents>.comment-box>.pages-box>.pages{display: inline-block;padding: 15px 0;cursor: pointer;}
+.contents>.comment-box>.pages-box>.pages>.active-page{color: #5FB878;}
+.contents>.comment-box>.pages-box>.pages>a{padding: 0 2px;}
+.contents>.comment-box>.pages-box>.pages>a:hover{color: #5FB878;}
+
+.comment-box>.btn-box{text-align: right;width: 100%;padding-bottom: 20px;margin-top: 50px;}
+.comment-box>.btn-box>button{padding:0 40px;}
+.comment-box>.btn-box>button.back-btn{background-color:#fff!important;color: #333; border:1px solid #D2D2D2;}
+

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./plugin/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/sucai_edit.css">
+  <script src="js/vue.js"></script>
+  <title>后台管理</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">MO Project后台管理</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          贤心
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed"><a class="" href="./sucai.html">素材管理</a></li>
+        <li class="layui-nav-item"><a href="./tiezi.html">帖子</a></li>
+        <li class="layui-nav-item"><a href="./yonghu.html">用户管理</a></li>
+        <!-- <li class="layui-nav-item"><a href="">系统通知</a></li>
+        <li class="layui-nav-item"><a href="">后台账号</a></li>
+        <li class="layui-nav-item"><a href="">消息</a></li> -->
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body" id="main"  @click.stop="longarticle.author_open = false">
+    <ul class="contents" v-cloak>
+        <li if="type == 'none'"></li>
+        <li class="sptz" v-if="type == 'tab1'">
+            <form class="edit-contents layui-form">
+              <div class="edit-type">
+                <i></i><span>新建视频帖子</span>
+              </div>
+              <div class="edit-content">
+
+                <div class="input-div">
+                  <input v-model="videoTie.title" v-on:input="check_title_length(videoTie.title)" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
+                  <p><span>{{title_length}}</span><span>/{{title_max_length}}</span></p>
+                  
+                </div>
+                <div class="input-div">
+                  <textarea v-model="videoTie.content" v-on:input="check_content_length(videoTie.content)" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
+                  <p><span>{{content_length}}</span><span>/{{content_max_length}}</span></p>
+                </div>
+
+                <div class="files">
+                  <div class="file-item">
+                    <div class="file-div">
+                      <span>选择视频</span>
+                      <div class="choose-file">
+                        <i class="iconfont icon-add"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="controls">
+                  <button class="layui-btn">保存并发布</button>
+                  <button class="layui-btn">保存</button>
+                  <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
+                </div>
+              </div>
+            </form>
+        </li>
+
+        <li class="cwz" v-if="type == 'tab2'">
+          <form class="edit-contents longarticle">
+              <div class="edit-type">
+                <i></i><span>新建长文章</span>
+              </div>
+              <div class="edit-content">
+
+                <div class="input-div row-box">
+                  <div class="flex1">
+                      <input v-model="longarticle.title" v-on:input="check_title_length(longarticle.title)" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
+                      <p class="text-bottom"><span>{{title_length}}</span><span>/{{title_max_length}}</span></p>
+                  </div>
+                  
+                  <div class="selectDiv noselect">
+                    <div class="input" @click.stop="longarticle.author_open = !longarticle.author_open">
+                      <span class="selectBtn">{{longarticle.groupList[longarticle.activeMail].name}}</span>
+                      <span class="arrow-icon" :class="longarticle.author_open ? 'arrow-active':''"></span>
+                    </div>
+                    <ul class="options" :style="{'display':longarticle.author_open ? 'block':'none'}">
+                      <li v-for="(item, index) in longarticle.groupList" @click.stop="change_author(index)">{{item.name}}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="input-div">
+                  <textarea v-model="videoTie.content" @input="check_content_length(videoTie.content)" :maxlength="content_max_length_longarticle" style="resize: none;min-height: 60px;" name="" lay-verify="title" autocomplete="off" placeholder="摘要" class="layui-textarea"></textarea>
+                  <p class="text-bottom"><span>{{content_length}}</span><span>/{{content_max_length_longarticle}}</span></p>
+                </div>
+
+                <div class="input-div content-box">
+                  <div class="choose-box row-box">
+                    <div class="choose-left">
+                      <div class="titles">
+                        <span @click="longarticle.type='big_title'">大标题</span>
+                        <span @click="longarticle.type='small_title'">小标题</span>
+                        <span @click="longarticle.type='content'">正文</span>
+                      </div>
+                    </div>
+                    <div class="choose-right">
+                      <button class="pic-btn" :class="longarticle.type=='content'?'active':'layui-btn-disabled'" v-bind:disabled="longarticle.type=='content'? 'false':'true'">插入图片</button>
+                    </div>
+                  </div>
+                  <div class="editor-box">
+                    <div class="editor-big-title" v-if="longarticle.type=='big_title'" contenteditable="true">
+                        111你好
+                    </div>
+                    <div class="editor-small-title" v-if="longarticle.type=='small_title'" contenteditable="true">
+222你好
+                    </div>
+                    <div class="editor-content" v-if="longarticle.type=='content'" contenteditable="true">
+333你好
+                    </div>
+                  </div>
+                </div>
+
+                <div class="files">
+                  <div class="file-item">
+                    <div class="file-div">
+                      <span>选择封面图片</span>
+                      <div class="choose-file">
+                        <i class="iconfont icon-add"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="controls">
+                  <button type="button" class="layui-btn" @click="add_longarticle">保存并发布</button>
+                  <button type="button" class="layui-btn" @click="save_longarticle">保存</button>
+                  <button type="button" class="layui-btn back-btn" v-on:click="go_back">返回</button>
+                </div>
+              </div>
+            </form>
+        </li>
+
+        <li class="dbk"  v-if="type == 'tab3'">
+            <form class="edit-contents layui-form shortblog">
+              <div class="edit-type">
+                <i></i><span>新建短博客</span>
+              </div>
+              <div class="edit-content">
+
+                <div class="input-div row-box">
+                  <div class="flex1 blog-div">
+                      <textarea v-model="shortblog.content" @input="check_content_length(shortblog.content)" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
+                      <p class="text-bottom"><span>{{content_length}}</span><span>/{{content_max_length}}</span></p>
+                  </div>
+                  
+                  <div class="selectDiv noselect">
+                    <div class="input" @click.stop="longarticle.author_open = !longarticle.author_open">
+                      <span class="selectBtn">{{longarticle.groupList[longarticle.activeMail].name}}</span>
+                      <span class="arrow-icon" :class="longarticle.author_open ? 'arrow-active':''"></span>
+                    </div>
+                    <ul class="options" :style="{'display':longarticle.author_open ? 'block':'none'}">
+                      <li v-for="(item, index) in longarticle.groupList" @click.stop="change_author(index)">{{item.name}}</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="files">
+                  <div class="file-item">
+                    <div class="file-div">
+                      <span>选择视频/图片</span>
+                      <div class="choose-file">
+                        <i class="iconfont icon-add"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="controls">
+                  <button class="layui-btn">保存并发布</button>
+                  <button class="layui-btn">保存</button>
+                  <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
+                </div>
+              </div>
+            </form>
+        </li>
+
+        <li class="spsc" v-if="type == 'tab4'">
+          <div class="controls">
+            <button class="layui-btn">新建分组</button>
+            <button class="layui-btn">上传视频</button>
+          </div>
+        </li>
+        <li class="tpsc" v-if="type == 'tab5'">图片素材</li>
+    </ul>
+
+
+
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 底部固定区域
+  </div>
+</div>
+ 
+
+<script src="./plugin/layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+//获取get传值的方法
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURI(r[2]);
+    return null;
+}
+var type = getQueryString('type');
+
+layui.use(['form','table','element'], function(){
+  var element = layui.element,
+      form = layui.form,
+      table = layui.table;
+
+
+  var main = new Vue({
+      el:'#main',
+      data:{
+        title_length:0,
+        content_length:0,
+        title_max_length:30,
+        content_max_length:200,
+        content_max_length_longarticle:100,
+        type:type,
+        videoTie:{
+          title:'',
+          content:'',
+        },
+        longarticle:{
+          type:'big_title',
+          activeMail: 0,
+          author_open: false,
+          groupList:[
+            {id:1,name:'Leona Chin'},
+            {id:2,name:'Leona Chin111'},
+            {id:3,name:'Leona Chin333'},
+          ],
+        },
+        shortblog:{
+          content:'',
+        }
+        
+        
+      },
+      methods:{
+        check_title_length:function(title){
+          var title_length = parseInt(title.length);
+          this.title_length = title_length;
+        },
+        check_content_length(content){
+          var content_length = parseInt(content.length);
+          this.content_length = content_length;
+        },
+        add_longarticle:function(){
+          console.log('add_longarticle');
+          
+        },
+        save_longarticle:function(){
+          console.log('save_longarticle');
+          
+        },
+        go_back:function(){
+          window.history.go(-1);
+        },
+        change_author:function(index){
+          this.longarticle.activeMail = index;
+          this.longarticle.author_open = false;
+        },
+        
+      },
+  });
+
+//   var cols = [
+//       {title:'内容',field:'content',width:120},
+//       {title:'分类',field:'content',width:120},
+//       {title:'发布时间',field:'content',width:120},
+//       {title:'操作',field:'content',width:120,toolbar:'#barDemo'},
+//   ]
+  
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./plugin/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/tiezi_detail.css">
+  <script src="js/vue.js"></script>
+  <title>后台管理</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">MO Project后台管理</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          贤心
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed"><a class="" href="./sucai.html">素材管理</a></li>
+        <li class="layui-nav-item"><a href="./tiezi.html">帖子</a></li>
+        <li class="layui-nav-item"><a href="./yonghu.html">用户管理</a></li>
+        <!-- <li class="layui-nav-item"><a href="">系统通知</a></li>
+        <li class="layui-nav-item"><a href="">后台账号</a></li>
+        <li class="layui-nav-item"><a href="">消息</a></li> -->
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body" id="main" >
+    <div v-if="content_show == 'none'" v-cloak></div>
+    <div class="details" v-if="content_show == 'tab1'" v-cloak>
+      <div class="head">
+        <i></i><span>帖子详情</span>
+      </div>
+      <div class="contents">
+        <p>帖子ID：</p>
+        <p>发帖人（微信号）：</p>
+        <p>发布时间：</p>
+        <p>分类：</p>
+        <p>浏览量/播放次数：18次</p>
+        <p>点赞：18次</p>
+        <p>分享：18次</p>
+        <div class="line"></div>
+        <div class="box">
+          <p>标题：</p>
+          <div class="inline-block">
+              测试标题
+          </div>
+        </div>
+        <div class="box">
+            <p>正文：</p>
+            <div class="inline-block">
+                2018年3月16-18日，由琛通集团主办的2018 MINI 亚洲挑战赛登陆泛珠三角超级赛车节。17日的下午3点15分，MINI亚洲挑战赛季前赛第一回合正式揭开战幕，开始了2018赛季的第一场正式比赛。
+            </div>
+        </div>
+        <div class="box">
+          <p>标签：</p>
+          <div class="tags inline-block">
+            minichallenge
+          </div>
+        </div>
+        <div class="box">
+          <p>配图/视频：</p>
+          <div class="files">
+            <img src="./images/test/tiezi_img.png">
+            <img src="./images/test/tiezi_img.png">
+            <img src="./images/test/tiezi_img.png">
+            <img src="./images/test/tiezi_img.png">
+          </div>
+        </div>
+        <div class="box comment-box">
+          <p>评论列表：</p>
+          <ul class="comment">
+            <li v-on:click="comment.show_hidden = !comment.show_hidden" v-bind:class="comment.show_hidden==true ? '':'text_none'">评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表</li>
+            <li>评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表</li>
+            <li>评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表</li>
+            <li>评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表评论列表</li>
+          </ul>
+          <div class="pages-box">
+            <div class="pages">
+                <a>上一页</a>
+                <a class="active-page">1</a>
+                <a>2</a>
+                <a>3</a>
+                <a>...</a>
+                <a>9</a>
+                <a>下一页</a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="btn-box">
+        <button class="layui-btn back-btn">返回</button>
+      </div>
+    </div>
+
+    <div class="details" v-if="content_show == 'tab2'" v-cloak>
+      <div class="head">
+        <i></i><span>评论详情</span>
+      </div>
+      <div class="contents">
+        <p>归属帖子ID：</p>
+        <p>评论者（微信号）：</p>
+        <p>发布时间：</p>
+        <p>点赞：18次</p>
+        <div class="line"></div>
+        <div class="box">
+          <p>评论内容：嗯可以哦</p>
+        </div>
+      </div>
+      <div class="btn-box">
+        <button class="layui-btn layui-btn-warm">隐藏</button>
+        <button class="layui-btn layui-btn-danger">删除</button>
+        <button class="layui-btn back-btn">返回</button>
+      </div>
+    </div>
+
+
+
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 底部固定区域
+  </div>
+</div>
+ 
+
+<script src="./plugin/layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+//获取get传值的方法
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURI(r[2]);
+    return null;
+}
+var type = getQueryString('type');
+
+layui.use(['form','table','element'], function(){
+  var element = layui.element,
+      form = layui.form,
+      table = layui.table;
+      
+
+  var main = new Vue({
+      el:'#main',
+      data:{
+        content_show:type,
+        comment:{
+          show_hidden:false,
+        }
+      },
+      methods:{
+        
+      },
+  });
+
+//   var cols = [
+//       {title:'内容',field:'content',width:120},
+//       {title:'分类',field:'content',width:120},
+//       {title:'发布时间',field:'content',width:120},
+//       {title:'操作',field:'content',width:120,toolbar:'#barDemo'},
+//   ]
+  
+});
+</script>
+</body>
+</html>

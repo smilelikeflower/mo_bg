@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./plugin/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/yonghu.css">
+  <script src="js/vue.js"></script>
+  <title>后台管理</title>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">MO Project后台管理</div>
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+        <a href="javascript:;">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+          贤心
+        </a>
+        <dl class="layui-nav-child">
+          <dd><a href="">基本资料</a></dd>
+          <dd><a href="">安全设置</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">退了</a></li>
+    </ul>
+  </div>
+  
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed"><a class="" href="./sucai.html">素材管理</a></li>
+        <li class="layui-nav-item"><a href="./tiezi.html">帖子</a></li>
+        <li class="layui-nav-item"><a href="./yonghu.html">用户管理</a></li>
+        <li class="layui-nav-item"><a href="./xiaoxi.html">消息</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body" id="main" @click.stop="fenlei.options_open = false">
+    <!-- 内容主体区域 -->
+    <ul class="tabs">
+        <li v-on:click="content_show = 'tab1'"  v-bind:class="content_show == 'tab1'? 'active-tab':''"><p class="tabname">全部</p><span class="line"></span></li>
+        <li v-on:click="content_show = 'tab2'"  v-bind:class="content_show == 'tab2'? 'active-tab':''"><p class="tabname">专栏</p><span class="line"></span></li>
+        <li v-on:click="content_show = 'tab3'"  v-bind:class="content_show == 'tab3'? 'active-tab':''"><p class="tabname">虚拟用户</p><span class="line"></span></li>
+    </ul>
+    <ul class="contents" v-cloak>
+        <li class="tab1" v-if="content_show == 'tab1'">
+            <div class="controls row-box">
+              <div class="text-left">
+                  <div class="selectDiv noselect">
+                    <div class="input" @click.stop="fenlei.options_open = !fenlei.options_open">
+                      <span class="selectBtn text_none">{{fenlei.groupList[fenlei.selected_option].name}}</span>
+                      <span class="arrow-icon" :class="fenlei.options_open ? 'arrow-active':''"></span>
+                    </div>
+                    <ul class="options" :style="{'display':fenlei.options_open ? 'block':'none'}">
+                      <li v-for="(item, index) in fenlei.groupList" @click.stop="change_options(index)">{{item.name}}</li>
+                    </ul>
+                  </div> 
+                  <div class="selectDiv noselect fenlei-selectDiv">
+                    <div class="input" @click.stop="fenlei.options_open = !fenlei.options_open">
+                      <span class="selectBtn text_none">{{fenlei.groupList[fenlei.selected_option].name}}</span>
+                      <span class="arrow-icon" :class="fenlei.options_open ? 'arrow-active':''"></span>
+                    </div>
+                    <ul class="options" :style="{'display':fenlei.options_open ? 'block':'none'}">
+                      <li v-for="(item, index) in fenlei.groupList" @click.stop="change_options(index)">{{item.name}}</li>
+                    </ul>
+                  </div>
+              </div>
+              <div class="text-right">
+                <input class="search-input search-author" type="text" placeholder="微信号、昵称">
+                <input class="search-input search-title" type="text" placeholder="帖子标题、内容">
+                <button class="layui-btn layui-btn-xs" @click="add(content_show)">搜索</button>
+              </div>
+            </div>
+            <button v-on:click="go_detail('yonghu_detail')" class="layui-btn">用户详情</button>
+        </li>
+        <li class="tab2"  v-if="content_show == 'tab2'">
+            <div class="controls">
+                <button class="layui-btn layui-btn-xs" @click="add('add_zluser','-1')">新建专栏</button>
+            </div>
+            
+            <button @click="go_detail('zl_detail')" class="layui-btn">专栏详情</button>
+        </li>
+        <li class="tab3"  v-if="content_show == 'tab3'">
+            <div class="controls row-box">
+              <div class="text-left">
+                  <div class="selectDiv noselect">
+                    <div class="input" @click.stop="fenlei.options_open = !fenlei.options_open">
+                      <span class="selectBtn text_none">{{fenlei.groupList[fenlei.selected_option].name}}</span>
+                      <span class="arrow-icon" :class="fenlei.options_open ? 'arrow-active':''"></span>
+                    </div>
+                    <ul class="options" :style="{'display':fenlei.options_open ? 'block':'none'}">
+                      <li v-for="(item, index) in fenlei.groupList" @click.stop="change_options(index)">{{item.name}}</li>
+                    </ul>
+                  </div> 
+              </div>
+              <div class="text-right">
+                <input class="search-input search-author" type="text" placeholder="微信号、昵称">
+                <input class="search-input search-title" type="text" placeholder="帖子标题、内容">
+                <button class="layui-btn" @click="add(content_show)">搜索</button>
+                <button class="layui-btn adduser-btn" @click="add('add_user','-1')">新建用户</button>
+              </div>
+            </div>
+            <button @click="go_detail('xnhy_detail')" class="layui-btn">虚拟用户详情</button>
+        </li>
+    </ul>
+
+
+
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 底部固定区域
+  </div>
+</div>
+ 
+
+<script src="./plugin/layui/layui.js"></script>
+<script>
+//JavaScript代码区域
+layui.use(['table','element'], function(){
+  var element = layui.element,
+      table = layui.table;
+
+
+  var main = new Vue({
+      el:'#main',
+      data:{
+        content_show:'tab1',
+        fenlei:{
+          selected_option: 0,
+          options_open: false,
+          groupList:[
+            {id:1,name:'Leona Chin'},
+            {id:2,name:'Leona Chin111'},
+            {id:3,name:'Leona Chin333'},
+          ],
+        }
+      },
+      methods:{
+        add(type,id){
+            window.location.href="./yonghu_edit.html?type="+type+"&id="+id;
+        },
+        go_detail(type){
+          window.location.href="./yonghu_detail.html?type="+type;
+        },
+        change_options:function(index){
+          this.fenlei.selected_option = index;
+          this.fenlei.options_open = false;
+        },
+      },
+  });
+
+//   var cols = [
+//       {title:'内容',field:'content',width:120},
+//       {title:'分类',field:'content',width:120},
+//       {title:'发布时间',field:'content',width:120},
+//       {title:'操作',field:'content',width:120,toolbar:'#barDemo'},
+//   ]
+  
+});
+</script>
+</body>
+</html>
