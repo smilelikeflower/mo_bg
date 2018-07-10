@@ -30,21 +30,22 @@ li>.controls>button{padding: 0 25px;}
 .controls>button:first-child{margin-left: 0px;}
 .controls>.back-btn{background-color: #fff;color: inherit;border: 1px solid #D2D2D2; }
 
-.content-box{position: relative;width: 100%;border:1px solid #e6e6e6;}
-.choose-box{justify-content:space-between;height: 42px;line-height:42px;border-bottom: 1px solid #e6e6e6;}
-.choose-box>div{position: relative;display: inline-block;height: 100%;}
-.choose-box>.choose-left>.titles{position: relative;line-height: 42px;}
-.choose-box>.choose-left>.titles>span{display: inline-block;height:20px;line-height: 20px;padding: 0 20px;margin-left: 10px;border: 1px solid #000;border-radius: 4px;
-    cursor: pointer;}
-.choose-box>.choose-right{line-height: 42px;margin-right: 10px;}
-.choose-box>.choose-right>.pic-btn{display: inline-block;height: 20px;line-height: 20px;padding: 0 20px;margin-left: 10px;}
-.choose-box>.choose-right>.pic-btn.active{display: inline-block;height: 20px;line-height: 20px;padding: 0 20px;margin-left: 10px;border: 1px solid #333;
+.myedit{position: relative;width: 100%;border:1px solid #e6e6e6;}
+.edit-tool{justify-content:space-between;height: 42px;line-height:42px;border-bottom: 1px solid #e6e6e6;}
+/* .edit-tool{position: relative;display: inline-block;height: 100%;} */
+.edit-tool>{position: relative;line-height: 42px;}
+.edit-tool>a,.edit-tool>.float-right>.pic-btn{display: inline-block;height:20px;line-height: 20px;padding: 0 20px;margin-left: 10px;border: 1px solid #000;border-radius: 4px;
+    cursor: pointer;font-style: normal;}
+.edit-tool>.float-right{display: inline-block;float: right;}
+.edit-tool>.float-right>.pic-btn{position: relative;z-index: 0;display: inline-block;padding: 0 20px;margin-left: 10px;border: 1px solid #333;
     border-radius: 4px;background-color: #009688;color: #fff;cursor: pointer;}
-.editor-box{position: relative;width: 100%;min-height: 300px;}
-.editor-box>div{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
+.edit-tool>.float-right>.pic-btn>input{position: absolute;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;opacity: 0;}
+.edit-tool>.float-right>.pic-btn:hover{opacity: 0.9;}
+#editor{position: relative;width: 100%;min-height: 300px;}
+/* .editor-box>div{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
 .editor-box>div.editor-big-title{font-size: 18px;}
 .editor-box>div.editor-small-title{font-size: 16px;}
-.editor-box>div.editor-content{font-size: 14px;}
+.editor-box>div.editor-content{font-size: 14px;} */
 
 
 

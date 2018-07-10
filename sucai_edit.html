@@ -55,12 +55,12 @@
               <div class="edit-content">
 
                 <div class="input-div">
-                  <input v-model="videoTie.title" v-on:input="check_title_length(videoTie.title)" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
+                  <input v-model="videoTie.title" v-on:input="check_txt_length(videoTie.title,'title_length')" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
                   <p><span>{{title_length}}</span><span>/{{title_max_length}}</span></p>
                   
                 </div>
                 <div class="input-div">
-                  <textarea v-model="videoTie.content" v-on:input="check_content_length(videoTie.content)" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
+                  <textarea v-model="videoTie.content" v-on:input="check_txt_length(videoTie.content,'content_length')" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
                   <p><span>{{content_length}}</span><span>/{{content_max_length}}</span></p>
                 </div>
 
@@ -74,7 +74,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="controls">
                   <button class="layui-btn">保存并发布</button>
                   <button class="layui-btn">保存</button>
@@ -93,7 +92,7 @@
 
                 <div class="input-div row-box">
                   <div class="flex1">
-                      <input v-model="longarticle.title" v-on:input="check_title_length(longarticle.title)" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
+                      <input v-model="longarticle.title" v-on:input="check_txt_length(longarticle.title,'title_length')" :maxlength="title_max_length" type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子标题" class="layui-input">
                       <p class="text-bottom"><span>{{title_length}}</span><span>/{{title_max_length}}</span></p>
                   </div>
                   
@@ -109,33 +108,23 @@
                 </div>
 
                 <div class="input-div">
-                  <textarea v-model="videoTie.content" @input="check_content_length(videoTie.content)" :maxlength="content_max_length_longarticle" style="resize: none;min-height: 60px;" name="" lay-verify="title" autocomplete="off" placeholder="摘要" class="layui-textarea"></textarea>
+                  <textarea v-model="videoTie.content" @input="check_txt_length(videoTie.content,'content_length')" :maxlength="content_max_length_longarticle" style="resize: none;min-height: 60px;" name="" lay-verify="title" autocomplete="off" placeholder="摘要" class="layui-textarea"></textarea>
                   <p class="text-bottom"><span>{{content_length}}</span><span>/{{content_max_length_longarticle}}</span></p>
                 </div>
 
-                <div class="input-div content-box">
-                  <div class="choose-box row-box">
-                    <div class="choose-left">
-                      <div class="titles">
-                        <span @click="longarticle.type='big_title'">大标题</span>
-                        <span @click="longarticle.type='small_title'">小标题</span>
-                        <span @click="longarticle.type='content'">正文</span>
-                      </div>
+                <div class="input-div content-box myedit">
+                  <div class="edit-tool">
+                    <a href="javascript:;" @click="set('fontSize',false,5)">大标题</a>
+                    <a href="javascript:;" @click="set('fontSize',false,4)">小标题</a>
+                    <a href="javascript:;" @click="set('fontSize',false,3)">正文</a>
+                    <div class="float-right">
+                        <a class="pic-btn" @click="edit_tool('pic')">
+                          <input type="file"/>插入图片</a>
                     </div>
-                    <div class="choose-right">
-                      <button class="pic-btn" :class="longarticle.type=='content'?'active':'layui-btn-disabled'" v-bind:disabled="longarticle.type=='content'? 'false':'true'">插入图片</button>
-                    </div>
+                    <div class="clearfix"></div>
                   </div>
-                  <div class="editor-box">
-                    <div class="editor-big-title" v-if="longarticle.type=='big_title'" contenteditable="true">
+                  <div contentEditable="true" id="editor">
                         111你好
-                    </div>
-                    <div class="editor-small-title" v-if="longarticle.type=='small_title'" contenteditable="true">
-222你好
-                    </div>
-                    <div class="editor-content" v-if="longarticle.type=='content'" contenteditable="true">
-333你好
-                    </div>
                   </div>
                 </div>
 
@@ -168,7 +157,7 @@
 
                 <div class="input-div row-box">
                   <div class="flex1 blog-div">
-                      <textarea v-model="shortblog.content" @input="check_content_length(shortblog.content)" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
+                      <textarea v-model="shortblog.content" @input="check_txt_length(shortblog.content,'content_length')" :maxlength="content_max_length" style="resize: none;min-height: 100px;" name="" lay-verify="title" autocomplete="off" placeholder="请输入帖子内容" class="layui-textarea"></textarea>
                       <p class="text-bottom"><span>{{content_length}}</span><span>/{{content_max_length}}</span></p>
                   </div>
                   
@@ -224,6 +213,7 @@
  
 
 <script src="./plugin/layui/layui.js"></script>
+<script src="./js/jquery-1.10.1.min.js"></script>
 <script>
 //JavaScript代码区域
 //获取get传值的方法
@@ -239,7 +229,6 @@ layui.use(['form','table','element'], function(){
   var element = layui.element,
       form = layui.form,
       table = layui.table;
-
 
   var main = new Vue({
       el:'#main',
@@ -271,13 +260,18 @@ layui.use(['form','table','element'], function(){
         
       },
       methods:{
-        check_title_length:function(title){
-          var title_length = parseInt(title.length);
-          this.title_length = title_length;
+        set:function(aCommandName, aShowDefaultUI, aValueArgument){
+          var aa = document.execCommand(aCommandName, aShowDefaultUI, aValueArgument);
+          console.log(aa);//若log输出true说明点击按钮后按钮生效；
         },
-        check_content_length(content){
-          var content_length = parseInt(content.length);
-          this.content_length = content_length;
+        check_txt_length:function(value,valueName){
+          var length = parseInt(value.length);
+          if(valueName == 'title_length'){
+            this.title_length = length;
+          }
+          if(valueName == 'content_length'){
+            this.content_length = length;
+          }
         },
         add_longarticle:function(){
           console.log('add_longarticle');
@@ -295,6 +289,9 @@ layui.use(['form','table','element'], function(){
           this.longarticle.author_open = false;
         },
         
+      },
+      created:function() {
+
       },
   });
 
