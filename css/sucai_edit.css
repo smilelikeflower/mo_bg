@@ -18,12 +18,13 @@
 .input-div>div>p.text-bottom{position: absolute;right: 10px;bottom: 10px;color: rgb(153, 153, 153);}
 li>.controls{position: relative;width: 100%;text-align: right;margin: 10px 0;height: 30px;line-height: 30px;}
 li>.controls>button{padding: 0 25px;}
-.files{position: relative;width: 100%;margin-top: 20px;text-align: left;}
-.files>div{display: inline-block;}
-.files>.file-item>.file-div{width: 260px;height: 180px;border: 1px solid #333;text-align: center;}
-.files>.file-item>.file-div>span{display: block;font-size: 16px;font-weight: 400;color:#999 ;margin:30px auto 20px auto;}
-.files>.file-item>.file-div>.choose-file{display: inline-block;border:1px solid #333;padding: 20px 15px;margin: 0 auto;}
-.files>.file-item>.file-div>.choose-file>.iconfont{font-size: 24px;color: #000;}
+.choose-files-box{position: relative;width: 100%;margin-top: 20px;text-align: left;}
+.choose-files-box>div{display: inline-block;margin-left: 10px;}
+.choose-files-box>div:first-child{margin-left: 0px;}
+.choose-files-box>.file-item>.file-div{width: 260px;height: 180px;border: 1px solid #333;text-align: center;}
+.choose-files-box>.file-item>.file-div>span{display: block;font-size: 16px;font-weight: 400;color:#999 ;margin:30px auto 20px auto;}
+.choose-files-box>.file-item>.file-div>.choose-file{display: inline-block;border:1px solid #333;padding: 20px 15px;margin: 0 auto;}
+.choose-files-box>.file-item>.file-div>.choose-file>.iconfont{font-size: 24px;color: #000;}
 
 .controls{width: 100%;position: relative;text-align: right;margin-top: 75px;}
 .controls>button{margin-left: 10px;padding: 0 40px;}
@@ -39,7 +40,7 @@ li>.controls>button{padding: 0 25px;}
 .edit-tool>.float-right{display: inline-block;float: right;}
 .edit-tool>.float-right>.pic-btn{position: relative;z-index: 0;display: inline-block;padding: 0 20px;margin-left: 10px;border: 1px solid #333;
     border-radius: 4px;background-color: #009688;color: #fff;cursor: pointer;}
-.edit-tool>.float-right>.pic-btn>input{position: absolute;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;opacity: 0;}
+/* .edit-tool>.float-right>.pic-btn>input{position: absolute;top: 0;left: 0;z-index: 1;width: 100%;height: 100%;opacity: 0;} */
 .edit-tool>.float-right>.pic-btn:hover{opacity: 0.9;}
 #editor{position: relative;width: 100%;min-height: 300px;}
 /* .editor-box>div{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}

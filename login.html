@@ -12,49 +12,50 @@
 </head>
 <body>
 <div class="main">
-        <div id="login-box">
-            <div class="login-title">后台管理</div>
-            <div class="login-info">
-                <input type="text" placeholder="用户名" name="username" v-model="username">
-                <input type="password" placeholder="密码" name="password" v-model="password">
-                <button v-on:click="login" class="login-btn">登录</button>
-            </div>
+    <div id="login-box">
+        <div class="login-title">后台管理</div>
+        <div class="login-info">
+            <input type="text" placeholder="用户名" name="username" v-model="username">
+            <input type="password" placeholder="密码" name="password" v-model="password">
+            <button v-on:click="login" class="login-btn">登录</button>
         </div>
+    </div>
 </div>
 
 
 <script scr="./js/jquery-1.10.1.min.js"></script>
-<script scr="./js/vue.js"></script>
+<script scr="./plugin/layui/layui.js"></script>
 <script>
-var main = new Vue({
-    el:'.main',
-    data:{
-        username:'',
-        password:''
-    },
-    methods:{
-        login:function(){
-        var user = new Object();
-        user.username = this.username;
-        user.password = this.password;
-        console.log(user.username);
-        console.log(user.password);
-        
-        
-        // $.ajax({
-        //     type:'post',
-        //     url:'',
-        //     data:{username:this.username,password:this.password},
-        //     dataType:'json',
-        //     success:function(res){
+layui.use(['element','layer'],function(){
+    var element = layui.element,
+        layer = layui.layer;
 
-        //     }
-        // });
-        
+    var main = new Vue({
+        el:'.main',
+        data:{
+            username:'',
+            password:''
+        },
+        methods:{
+            login:function(){
+                $.ajax({
+                    type:'post',
+                    url:'',
+                    data:{},
+                    dataType:'json',
+                    success:function(res){
+                        // if(){
+
+                        // }
+                    }
+                });
+            }
         }
-    }
+    });
+
 
 });
+
 
 </script>
     

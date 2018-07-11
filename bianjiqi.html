@@ -7,18 +7,14 @@
 </head>
 
 <body>
-    <!-- 加载编辑器的容器 -->
-    <script id="container" name="content" type="text/plain">
-        这里写你的初始化内容
-    </script>
-    <!-- 配置文件 -->
-    <script type="text/javascript" src="ueditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="ueditor.all.js"></script>
-    <!-- 实例化编辑器 -->
-    <script type="text/javascript">
-        var ue = UE.getEditor('container');
-    </script>
+        <link rel="stylesheet" href="http://www.wangzhihui.cc/edit.css">
+        <div id="myedit">
+            <div id="edit-tool">
+            <input id="printContent" class="edit-btn" type="button" value="发表文章">
+            </div>
+            <div id="editor"  value="Click to Editor..."></div>
+        </div>
+    <script src="http://www.wangzhihui.cc/edit.js"></script>
 </body>
 
 </html>

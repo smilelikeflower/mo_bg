@@ -64,7 +64,7 @@
                   <p><span>{{content_length}}</span><span>/{{content_max_length}}</span></p>
                 </div>
 
-                <div class="files">
+                <div class="choose-files-box">
                   <div class="file-item">
                     <div class="file-div">
                       <span>选择视频</span>
@@ -73,7 +73,16 @@
                       </div>
                     </div>
                   </div>
+                  <div class="file-item">
+                    <div class="file-div">
+                      <span>选择封面图片</span>
+                      <div class="choose-file">
+                        <i class="iconfont icon-add"></i>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
                 <div class="controls">
                   <button class="layui-btn">保存并发布</button>
                   <button class="layui-btn">保存</button>
@@ -114,12 +123,11 @@
 
                 <div class="input-div content-box myedit">
                   <div class="edit-tool">
-                    <a href="javascript:;" @click="set('fontSize',false,5)">大标题</a>
-                    <a href="javascript:;" @click="set('fontSize',false,4)">小标题</a>
-                    <a href="javascript:;" @click="set('fontSize',false,3)">正文</a>
+                    <a href="javascript:;" @click="set('fontSize',false,5,longarticle.edit.fontSize_da=!longarticle.edit.fontSize_da)">大标题</a>
+                    <a href="javascript:;" @click="set('fontSize',false,4,longarticle.edit.fontSize_xiao=!longarticle.edit.fontSize_xiao)">小标题</a>
+                    <a href="javascript:;" @click="set('fontSize',false,3,longarticle.edit.fontSize_content=!longarticle.edit.fontSize_content)">正文</a>
                     <div class="float-right">
-                        <a class="pic-btn" @click="edit_tool('pic')">
-                          <input type="file"/>插入图片</a>
+                        <a class="pic-btn" @click="show_upload = true">插入图片</a>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -128,7 +136,7 @@
                   </div>
                 </div>
 
-                <div class="files">
+                <div class="choose-files-box">
                   <div class="file-item">
                     <div class="file-div">
                       <span>选择封面图片</span>
@@ -172,7 +180,7 @@
                   </div>
                 </div>
 
-                <div class="files">
+                <div class="choose-files-box">
                   <div class="file-item">
                     <div class="file-div">
                       <span>选择视频/图片</span>
@@ -212,8 +220,8 @@
 </div>
  
 
-<script src="./plugin/layui/layui.js"></script>
 <script src="./js/jquery-1.10.1.min.js"></script>
+<script src="./plugin/layui/layui.js"></script>
 <script>
 //JavaScript代码区域
 //获取get传值的方法
@@ -225,14 +233,16 @@ function getQueryString(name) {
 }
 var type = getQueryString('type');
 
-layui.use(['form','table','element'], function(){
+layui.use(['form','table','element','layer'], function(){
   var element = layui.element,
-      form = layui.form,
-      table = layui.table;
-
+         form = layui.form,
+        layer = layui.layer,
+        table = layui.table;
+  var show_upload;
   var main = new Vue({
       el:'#main',
       data:{
+        show_upload:false,
         title_length:0,
         content_length:0,
         title_max_length:30,
@@ -252,6 +262,11 @@ layui.use(['form','table','element'], function(){
             {id:2,name:'Leona Chin111'},
             {id:3,name:'Leona Chin333'},
           ],
+          edit:{
+            fontSize_da:false,
+            fontSize_xiao:false,
+            fontSize_content:false,
+          }
         },
         shortblog:{
           content:'',
@@ -260,9 +275,35 @@ layui.use(['form','table','element'], function(){
         
       },
       methods:{
-        set:function(aCommandName, aShowDefaultUI, aValueArgument){
-          var aa = document.execCommand(aCommandName, aShowDefaultUI, aValueArgument);
-          console.log(aa);//若log输出true说明点击按钮后按钮生效；
+        add_pic:function(){
+          //示范一个公告层
+          layer.open({
+            type: 1
+            ,title: false //不显示标题栏
+            ,closeBtn: false
+            ,area: ['1000px','700px']
+            ,shade: 0.8
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出  
+            ,btn: ['确认', '取消']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: $('#add_pic')
+            ,success: function(layero){
+              var btn = layero.find('.layui-layer-btn');
+              btn.find('.layui-layer-btn0').attr({
+                href: 'http://www.layui.com/'
+                ,target: '_blank'
+              });
+            }
+          });
+        },
+        set:function(aCommandName, aShowDefaultUI, aValueArgument,active){
+          if(active){
+            var aa = document.execCommand(aCommandName, aShowDefaultUI, aValueArgument);
+            // console.log(aa);//若log输出true说明点击按钮后按钮生效；
+          }else{
+            document.execCommand("RemoveFormat",false,null);
+          }
         },
         check_txt_length:function(value,valueName){
           var length = parseInt(value.length);
@@ -275,11 +316,9 @@ layui.use(['form','table','element'], function(){
         },
         add_longarticle:function(){
           console.log('add_longarticle');
-          
         },
         save_longarticle:function(){
           console.log('save_longarticle');
-          
         },
         go_back:function(){
           window.history.go(-1);
@@ -288,7 +327,6 @@ layui.use(['form','table','element'], function(){
           this.longarticle.activeMail = index;
           this.longarticle.author_open = false;
         },
-        
       },
       created:function() {
 
@@ -301,8 +339,80 @@ layui.use(['form','table','element'], function(){
 //       {title:'发布时间',field:'content',width:120},
 //       {title:'操作',field:'content',width:120,toolbar:'#barDemo'},
 //   ]
-  
+show_upload = main.show_upload;
+    var add_pic = new Vue({
+        el:'#add_pic',
+        data:{
+          show_upload:show_upload,
+        },
+        methods:{
+
+        },
+        created:function(){
+
+        }
+    });
+    console.log(add_pic.show_upload,'add_pic.show_upload');
+    
 });
 </script>
+<style>
+  #add_pic{position: relative;width: 1000px;height: 600px;padding: 20px; line-height: 22px;}
+  #add_pic>.files-box{position: relative;width: 100%;height: 100%;}
+  #add_pic>.files-box>.typename{font-size:18px;font-weight: 600;letter-spacing: 1px;}
+  #add_pic>.files-box>.files{position: relative;width: 100%;height: 100%;padding-top:40px;}
+  #add_pic>.files-box>.files>.files-folders,#add_pic>.files-box>.files>.files-content{display: inline-block;}
+  #add_pic>.files-box>.files>.files-folders{position: relative;height: 100%;;border-right: 1px solid #000000;padding-right: 15px;}
+  #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>a{font-size: 16px;line-height: 32px;}
+  #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>.sub-folers>.subf-name>span{font-size: 14px;line-height: 26px;}
+  #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>.sub-folers>.subf-name>i{font-size: 14px;margin-right: 2px;}
+  #add_pic>.files-box>.files>.files-folders>.add-folder-btn{position: absolute;bottom:0px;left:0px;font-size: 16px;}
+  #add_pic>.files-box>.files>.files-folders>.add-folder-btn>i{margin-right: 2px;}
+  #add_pic>.files-box>.files>.files-content{position: relative;vertical-align: top;}
+  #add_pic>.files-box>.files>.files-content>.content-box{position: relative;padding-left: 10px;}
+  #add_pic>.files-box>.files>.files-content>.content-box>.choosed-count{font-size: 16px;line-height: 16px;}
+  #add_pic>.files-box>.files>.files-content>.content-box>.contents{position: relative;padding-top: 20px;}
+</style>
+<div id="add_pic" :style="main.show_upload?'display:block':'display:none'">
+    <div class="files-box">
+      <span class="typename">选择图片</span>
+      <div class="files">
+        <div class="files-folders">
+          <ul class="folders-box">
+            <li class="folder-name"><a>未分组（1000）</a></li>
+            <li class="folder-name">
+              <a>2018年6月（60）</a>
+              <ul class="sub-folers">
+                <li class="subf-name"><span>6月15</span><span>（10）</span></li>
+                <li class="subf-name"><span>6月16</span><span>（50）</span></li>
+                <li class="subf-name"><i class="iconfont icon-add"></i><span class="add-subfolder-btn">新建分组</span></li>
+              </ul>
+            </li>
+          </ul>
+          <a class="add-folder-btn"><i class="iconfont icon-add"></i><span>新建分组</span></a>
+        </div>
+
+        <div class="files-content">
+          <div class="content-box">
+              <a class="choosed-count">已选<span>1</span>个</a>
+              <ul class="contents">
+                <li>
+                  1我是图片
+                </li>
+                <li>
+                  2我是图片
+                </li>
+                <li>
+                  3我是图片
+                </li>
+                <li></li>
+              </ul>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+</div>
 </body>
 </html>

@@ -9,6 +9,8 @@
     <title>Document</title>
     <style>
     #bianjiqi{width: 500px;height: 400px;border: 1px solid;}
+    .img-btn{position: relative;width: 100px;height: 50px;border: 1px solid #ccc;}
+    .img-btn>.img-input{position: absolute;width: 100%;height: 100%;top: 0;left: 0;opacity: 0;}
     </style>
 </head>
 <body>
@@ -16,6 +18,11 @@
         <div class="edit-tool">
             <a href="javascript:;" id="bold-btn" @click="edit();isEnabled = !isEnabled;">粗体</a>
             <a href="javascript:;"  @click="remove()">删除文字格式</a>
+            <a href="javascript:;" class="img-btn"><input type="file" class="img-input"/>插入图片</a>
+            <div style="position: absolute; top: 85px; left: 300px;">
+                {<input id="avatarSlect" type="file" style="position: absolute;float: left; z-index: 10; opacity: 0;width: 100px; height: 100px;">
+                <img id="avatarPreview" src="/static/images/sample.png" title="点击更换图片" style="position: absolute; z-index: 9; float: left; width: 100px; height: 100px">
+            </div>}
         </div>
         <div class="editor" contentEditable="true">
         
@@ -39,12 +46,84 @@
     //         console.log(aa);//若log输出true说明点击按钮后按钮生效；
     //     }
     //    })
+    var imgurl;
+     $(function () {
+          bindAvatar();
+     });
+      function bindAvatar() {
+          if(window.URL.createObjectURL){
+            bindAvatar3();
+          }else if(window.FileReader){
+            bindAvatar2();
+          }else {
+            bindAvatar1();
+          }
+     }
+      /*Ajax上传至后台并返回图片的url*/
+      function bindAvatar1() {
+        $("#avatarSlect").change(function () {
+        var csrf = $("input[name='csrfmiddlewaretoken']").val();
+        var formData=new FormData();
+        formData.append("csrfmiddlewaretoken",csrf);
+        formData.append('avatar', $("#avatarSlect")[0].files[0]);  /*获取上传的图片对象*/
+        $.ajax({
+          url: '/upload_avatar/',
+              type: 'POST',
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function (args) {
+            console.log(args);  /*服务器端的图片地址*/
+                  $("#avatarPreview").attr('src','/'+args);  /*预览图片*/
+                  $("#avatar").val('/'+args);  /*将服务端的图片url赋值给form表单的隐藏input标签*/
+         }
+          })
+     })
+      }
+      /*window.FileReader本地预览*/
+      function bindAvatar2() {
+        console.log(2);
+           $("#avatarSlect").change(function () {
+               var obj=$("#avatarSlect")[0].files[0];
+               var fr=new FileReader();
+               fr.onload=function () {
+                   $("#avatarPreview").attr('src',this.result);
+                   console.log(this.result);
+                   $("#avatar").val(this.result);
+          };
+          fr.readAsDataURL(obj);
+        })
+     }
+     /*window.URL.createObjectURL本地预览*/
+     function bindAvatar3() {
+       console.log(3);
+          $("#avatarSlect").change(function (e) {
+              var obj=$("#avatarSlect")[0].files[0];
+    console.log($("#avatarSlect")[0],'obj');
+    console.log($("#avatarSlect")[1],'obj');
+    console.log(e,'event');
+    
+              var wuc=window.URL.createObjectURL(obj);
+               $("#avatarPreview").attr('src',wuc);
+    imgurl = wuc;
+               $("#avatar").val(wuc);
+    // {#           $("#avatarPreview").load(function () {#}    /*当图片加载后释放内存空间，但在jQuery3.2.1中会报错。浏览器关闭后也会自动释放*/
+    // {#               window.URL.revokeObjectURL(wuc);#}
+    // {#      })#}
+       })
+     }
        var main = new Vue({
            el:'#myedit',
            data:{
             isEnabled:false,
            },
            methods:{
+               insertImage:function(){
+                // var img = document.execCommand("insertimage", 0, "http://www.baidu.com/img/bd_logo1.png");
+                var img = document.execCommand("insertimage", 0, imgurl);
+                console.log(img,'img');
+                
+               },
             edit:function(){
                 var  isEnabled = document.queryCommandEnabled('fontSize');
                 // if(!this.isEnabled){
@@ -57,9 +136,6 @@
             
            var txt =  this._getSelectedText()
             console.log(txt,'txt');
-            
-          
-           
             },
             _getSelectedText:function() {
                 if (window.getSelection) {
