@@ -127,7 +127,7 @@
                     <a href="javascript:;" @click="set('fontSize',false,4,longarticle.edit.fontSize_xiao=!longarticle.edit.fontSize_xiao)">小标题</a>
                     <a href="javascript:;" @click="set('fontSize',false,3,longarticle.edit.fontSize_content=!longarticle.edit.fontSize_content)">正文</a>
                     <div class="float-right">
-                        <a class="pic-btn" @click="show_upload = true">插入图片</a>
+                        <a href="javascript:;" class="pic-btn" @click="addImage()">插入图片</a>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -238,11 +238,10 @@ layui.use(['form','table','element','layer'], function(){
          form = layui.form,
         layer = layui.layer,
         table = layui.table;
-  var show_upload;
+
   var main = new Vue({
       el:'#main',
       data:{
-        show_upload:false,
         title_length:0,
         content_length:0,
         title_max_length:30,
@@ -275,7 +274,10 @@ layui.use(['form','table','element','layer'], function(){
         
       },
       methods:{
-        add_pic:function(){
+        showUpload:function(){
+          add_pic.show_upload = true;
+        },
+        show_upload:function(){
           //示范一个公告层
           layer.open({
             type: 1
@@ -297,8 +299,17 @@ layui.use(['form','table','element','layer'], function(){
             }
           });
         },
+        addImage:function(){
+          // var img = document.execCommand('insertImage', 0, 'https://www.baidu.com/img/bd_logo1.png');
+          // var img = document.execCommand("insertImage", true, "https://www.baidu.com/img/bd_logo1.png");
+          var img = document.execCommand('insertImage', true, 'http://localhost/mo_bg/images/test/yh_head.png');
+          console.log(img,'img_+++++');
+          
+        },
         set:function(aCommandName, aShowDefaultUI, aValueArgument,active){
           if(active){
+            console.log(aCommandName,'aCommandName');
+            
             var aa = document.execCommand(aCommandName, aShowDefaultUI, aValueArgument);
             // console.log(aa);//若log输出true说明点击按钮后按钮生效；
           }else{
@@ -333,53 +344,53 @@ layui.use(['form','table','element','layer'], function(){
       },
   });
 
-//   var cols = [
-//       {title:'内容',field:'content',width:120},
-//       {title:'分类',field:'content',width:120},
-//       {title:'发布时间',field:'content',width:120},
-//       {title:'操作',field:'content',width:120,toolbar:'#barDemo'},
-//   ]
-show_upload = main.show_upload;
-    var add_pic = new Vue({
-        el:'#add_pic',
-        data:{
-          show_upload:show_upload,
-        },
-        methods:{
+  var add_pic = new Vue({
+      el:'#add_pic',
+      data:{
+        show_upload:false,
+      },
+      methods:{
 
-        },
-        created:function(){
+      },
+      created:function(){
 
-        }
-    });
-    console.log(add_pic.show_upload,'add_pic.show_upload');
+      }
+  });
     
 });
 </script>
 <style>
-  #add_pic{position: relative;width: 1000px;height: 600px;padding: 20px; line-height: 22px;}
-  #add_pic>.files-box{position: relative;width: 100%;height: 100%;}
-  #add_pic>.files-box>.typename{font-size:18px;font-weight: 600;letter-spacing: 1px;}
-  #add_pic>.files-box>.files{position: relative;width: 100%;height: 100%;padding-top:40px;}
+  
+  #add_pic{position: fixed;top:0;left:0;width: 100%;height: 100%;z-index: 1000;background: rgba(0, 0, 0, 0.5);text-align: center;}
+  #add_pic::after{content: '';display: inline-block;vertical-align: middle;height: 100%}
+  #add_pic>.files-box{position: relative;width: 1000px;height: 600px;padding:20px;background: #fff;display: inline-block;
+    text-align: left;vertical-align: middle;}
+  #add_pic>.files-box>.typename{font-size:18px;font-weight: 600;letter-spacing: 1px;height: 40px;line-height: 40px;}
+  #add_pic>.files-box>.icon-guanbi{font-size:18px;font-weight: 600;position: absolute;top: 10px;right: 10px;cursor: pointer;}
+  #add_pic>.files-box>.files{position: relative;width: 960px;height: 520px;padding-top:20px;font-size: 0px;}
   #add_pic>.files-box>.files>.files-folders,#add_pic>.files-box>.files>.files-content{display: inline-block;}
-  #add_pic>.files-box>.files>.files-folders{position: relative;height: 100%;;border-right: 1px solid #000000;padding-right: 15px;}
+  #add_pic>.files-box>.files>.files-folders{position: relative;height: 100%;width: 160px;border-right: 1px solid #000000;}
+  #add_pic>.files-box>.files>.files-folders>.folders-box{height: 460px;overflow-y: scroll;}
   #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>a{font-size: 16px;line-height: 32px;}
   #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>.sub-folers>.subf-name>span{font-size: 14px;line-height: 26px;}
   #add_pic>.files-box>.files>.files-folders>.folders-box>.folder-name>.sub-folers>.subf-name>i{font-size: 14px;margin-right: 2px;}
-  #add_pic>.files-box>.files>.files-folders>.add-folder-btn{position: absolute;bottom:0px;left:0px;font-size: 16px;}
+  #add_pic>.files-box>.files>.files-folders>.add-folder-btn{position: absolute;bottom:0px;left:0px;font-size: 16px;height: 20px;line-height: 20px;}
   #add_pic>.files-box>.files>.files-folders>.add-folder-btn>i{margin-right: 2px;}
   #add_pic>.files-box>.files>.files-content{position: relative;vertical-align: top;}
   #add_pic>.files-box>.files>.files-content>.content-box{position: relative;padding-left: 10px;}
   #add_pic>.files-box>.files>.files-content>.content-box>.choosed-count{font-size: 16px;line-height: 16px;}
-  #add_pic>.files-box>.files>.files-content>.content-box>.contents{position: relative;padding-top: 20px;}
+  #add_pic>.files-box>.files>.files-content>.content-box>.contents{position: relative;padding-top: 20px;font-size: 14px;}
+  #add_pic>.files-box>.files>.files-content>.content-box>.contents>.file-item{position: relative;display:inline-block;border: 1px solid;
+    width: 100px;height: 100px;}
 </style>
-<div id="add_pic" :style="main.show_upload?'display:block':'display:none'">
-    <div class="files-box">
+<div id="add_pic" v-cloak @click.stop="show_upload = false" v-show="show_upload">
+    <div class="files-box" @click.stop="show_upload = true">
       <span class="typename">选择图片</span>
+      <i class="iconfont icon-guanbi" @click.stop="show_upload = false"></i>
       <div class="files">
         <div class="files-folders">
           <ul class="folders-box">
-            <li class="folder-name"><a>未分组（1000）</a></li>
+            <li class="folder-name"><a>未分组（1000）未分组（1000）未分组（1000）未分组（1000）</a></li>
             <li class="folder-name">
               <a>2018年6月（60）</a>
               <ul class="sub-folers">
@@ -395,18 +406,20 @@ show_upload = main.show_upload;
         <div class="files-content">
           <div class="content-box">
               <a class="choosed-count">已选<span>1</span>个</a>
-              <ul class="contents">
-                <li>
+              <div class="contents">
+                <div class="file-item">
                   1我是图片
-                </li>
-                <li>
-                  2我是图片
-                </li>
-                <li>
-                  3我是图片
-                </li>
-                <li></li>
-              </ul>
+                </div>
+                <div class="file-item">
+                  1我是图片
+                </div>
+                <div class="file-item">
+                  1我是图片
+                </div>
+                <div class="file-item">
+                  1我是图片
+                </div>
+              </div>
           </div>
           
         </div>

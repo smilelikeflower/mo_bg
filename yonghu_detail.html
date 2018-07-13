@@ -82,7 +82,7 @@
             </div>
           </div>
           <div class="btn-box">
-            <button class="layui-btn back-btn">返回</button>
+            <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
           </div>
         </div>
       </div>
@@ -133,7 +133,7 @@
             </div>
             <div class="btn-box">
               <button class="layui-btn">编辑</button>
-              <button class="layui-btn back-btn">返回</button>
+              <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@
               </div>
               <div class="btn-box">
                 <button class="layui-btn">编辑</button>
-                <button class="layui-btn back-btn">返回</button>
+                <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
               </div>
             </div>
           </div>
@@ -228,7 +228,9 @@ layui.use(['form','table','element'], function(){
         }
       },
       methods:{
-        
+        go_back:function(){
+          window.history.go(-1);
+        },
       },
   });
 

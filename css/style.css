@@ -40,3 +40,5 @@ a:focus,*:focus{outline:none;}
 .icon-add:before { content: "\e6b0"; }
 
 .icon-file-s-:before { content: "\e659"; }
+
+.icon-guanbi:before { content: "\e624"; }

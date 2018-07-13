@@ -104,7 +104,7 @@
             </div>
           </div>
           <div class="controls">
-            <button class="layui-btn back-btn">返回</button>
+            <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
           </div>
         </div>
       </div>
@@ -127,7 +127,7 @@
       <div class="btn-box">
         <button class="layui-btn layui-btn-warm">隐藏</button>
         <button class="layui-btn layui-btn-danger">删除</button>
-        <button class="layui-btn back-btn">返回</button>
+        <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
       </div>
     </div>
 
@@ -172,6 +172,9 @@ layui.use(['form','table','element'], function(){
         replay_zhuanlan(){
 
         },
+        go_back:function(){
+          window.history.go(-1)
+        }
       },
   });
 

@@ -20,9 +20,15 @@
             <a href="javascript:;"  @click="remove()">删除文字格式</a>
             <a href="javascript:;" class="img-btn"><input type="file" class="img-input"/>插入图片</a>
             <div style="position: absolute; top: 85px; left: 300px;">
-                {<input id="avatarSlect" type="file" style="position: absolute;float: left; z-index: 10; opacity: 0;width: 100px; height: 100px;">
+                {<input id="avatarSlect" type="file" multiple="multiple" style="position: absolute;float: left; z-index: 10; opacity: 0;width: 100px; height: 100px;">
                 <img id="avatarPreview" src="/static/images/sample.png" title="点击更换图片" style="position: absolute; z-index: 9; float: left; width: 100px; height: 100px">
             </div>}
+
+            <input type="file" id="file1" multiple="multiple" >
+            <div id="result">
+
+            </div>
+            <button type="button" @click="readAsDataURL()">上传</button>
         </div>
         <div class="editor" contentEditable="true">
         
@@ -104,6 +110,12 @@
     console.log(e,'event');
     
               var wuc=window.URL.createObjectURL(obj);
+    console.log(wuc,'img-url'); 
+    // var img = document.execCommand("insertImage",0,wuc);
+    
+                var img = document.execCommand("insertimage", 0, "http://www.baidu.com/img/bd_logo1.png");
+    console.log(img,'img');
+    
                $("#avatarPreview").attr('src',wuc);
     imgurl = wuc;
                $("#avatar").val(wuc);
@@ -112,6 +124,21 @@
     // {#      })#}
        })
      }
+
+
+/*图片预览*/
+function readAsDataURL(){  
+    var file = document.getElementById("file1").files;
+    var result=document.getElementById("result");  
+    for(i = 0; i< file.length; i ++) {
+        var reader  = new FileReader();    
+        reader.readAsDataURL(file[i]);  
+        reader.onload=function(e){  
+              console.log(this);
+              result.innerHTML = '<img src="' + this.result +'" alt="" />' + '<br />';  
+          }        
+       }
+}
        var main = new Vue({
            el:'#myedit',
            data:{

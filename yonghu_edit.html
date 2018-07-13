@@ -100,7 +100,7 @@
 
             <div class="controls">
               <button class="layui-btn">保存</button>
-              <button class="layui-btn back-btn">返回</button>
+              <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
             </div>
           </div>
         </form>
@@ -142,7 +142,7 @@
 
             <div class="controls">
               <button class="layui-btn">保存</button>
-              <button class="layui-btn back-btn">返回</button>
+              <button class="layui-btn back-btn" type="button" @click="go_back">返回</button>
             </div>
           </div>
         </form>
@@ -191,7 +191,9 @@ layui.use(['form','table','element'], function(){
         }
       },
       methods:{
-        
+        go_back:function(){
+          window.history.go(-1);
+        },
         change_fenlei:function(index){
           this.user.activeFenlei = index;
           this.user.fenlei_open = false;
